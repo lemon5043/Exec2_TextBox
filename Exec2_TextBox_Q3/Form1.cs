@@ -22,7 +22,7 @@ namespace Exec2_TextBox_Q3
 		{
 			try
 			{
-				result.Text = CheckAge(textBox1.Text);
+				result.Text = CheckAge(dateTimePicker1.Value);
 			}
 			catch (Exception ex)
 			{
@@ -31,22 +31,24 @@ namespace Exec2_TextBox_Q3
 			}
 		}
 
-		string CheckAge(string n)
+		string CheckAge(DateTime n)
 		{
-			bool isInt = int.TryParse(n, out int value);
-
-			if (!isInt || value < 0 || value > 150)
+			// 判斷年齡是否超過今天
+			if (n > DateTime.Now)
 			{
-				throw new Exception("請輸入正確的年齡");
+				throw new Exception("生日不可超過現在");
 			}
 
-			if (value < 13)
+			int age = DateTime.Now.Year - n.Year;
+			if (DateTime.Now < n.AddYears(age)) { age--; }
+
+			if (age >= 13)
 			{
-				return "您未滿13歲";
+				return "您已滿13歲";
 			}
 			else
 			{
-				return "您已滿13歲";
+				return "您未滿13歲";
 			}
 		}
 	}
